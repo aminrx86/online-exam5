@@ -185,11 +185,13 @@ class AdminDashboard {
     }
 
     // ========== سوالات ==========
-    async loadQuestionsTab() {
-        if (!this.isAuthenticated) return;
-        const questions = this.questionBank.getAllQuestions();
-        this.renderQuestionsList(questions);
-    }
+   async loadQuestionsTab() {
+    if (!this.isAuthenticated) return;
+    // بارگذاری مجدد از دیتابیس (نه از کش)
+    await this.questionBank.loadQuestions();
+    const questions = this.questionBank.getAllQuestions();
+    this.renderQuestionsList(questions);
+}
 
     renderQuestionsList(questions) {
         const container = document.getElementById('questionsList');

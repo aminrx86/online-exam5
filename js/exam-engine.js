@@ -1,6 +1,6 @@
 /**
- * Exam Engine - موتور آزمون (نسخه نهایی)
- * @version 2.0.0
+ * Exam Engine - موتور آزمون (نسخه با بارگذاری تازه از دیتابیس)
+ * @version 2.1.0
  */
 class ExamEngine {
     constructor(questionBank, storageManager) {
@@ -20,6 +20,7 @@ class ExamEngine {
         this.examStarted = false;
     }
 
+    // ===== شروع آزمون (با دریافت تازه از دیتابیس) =====
     async startExam(userInfo) {
         this.userInfo = userInfo;
         this.examId = this.generateExamId();
@@ -30,7 +31,9 @@ class ExamEngine {
         this.examStarted = true;
 
         const count = this.settings.questionsPerExam || 30;
-        // دریافت دسته‌بندی‌های انتخاب شده از تنظیمات
+        
+        // ===== دریافت سوالات تازه از دیتابیس (نه از کش) =====
+        await this.questionBank.loadQuestions();
         const categories = this.settings.selectedCategories || ['HSE', 'Technical', 'Management', 'General'];
         this.questions = this.questionBank.getRandomQuestions(count, true, categories);
 
