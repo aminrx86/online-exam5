@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SmartExam Enterprise Lite | سامانه آزمون سازمانی</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="logo-section">
+                <img id="companyLogo" src="" alt="لوگو" style="max-height: 50px; display: none;">
+                <h1 id="companyNameHeader">SmartExam</h1>
+                <span id="companyBadge" class="badge">Enterprise Lite</span>
+            </div>
+            <div class="theme-toggle">
+                <button id="themeToggleBtn" class="theme-btn" style="background: transparent; border: 1px solid var(--glass-border); padding: 8px 15px; border-radius: 10px; cursor: pointer;">🌙</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Registration Panel -->
+            <div id="registrationPanel" class="panel glass-card active">
+                <h2 style="margin-bottom: 20px;">📝 ثبت نام در آزمون</h2>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی *</label>
+                        <input type="text" id="fullName" required placeholder="مثال: علی احمدی">
+                    </div>
+                    <div class="form-group">
+                        <label>شماره پرسنلی *</label>
+                        <input type="text" id="personnelCode" required placeholder="مثال: 1001">
+                    </div>
+                    <div class="form-group">
+                        <label>واحد سازمانی *</label>
+                        <input type="text" id="department" required placeholder="مثال: فناوری اطلاعات">
+                    </div>
+                    <div class="form-group">
+                        <label>محل خدمت *</label>
+                        <input type="text" id="workplace" required placeholder="مثال: دفتر مرکزی">
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%;">شروع آزمون</button>
+                </form>
+            </div>
+
+            <!-- Exam Panel -->
+            <div id="examPanel" class="panel glass-card">
+                <div class="exam-header">
+                    <h2 style="margin-bottom: 15px;">📌 آزمون سازمانی</h2>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="examProgress" style="width: 0%;"></div>
+                    </div>
+                    <div class="timer" id="timerDisplay">زمان باقیمانده: --:--</div>
+                </div>
+                
+                <div id="questionContainer" class="question-container">
+                    <!-- Dynamic question -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="prevBtn" class="btn-secondary">قبلی</button>
+                    <span id="questionCounter">سوال 1 از 30</span>
+                    <button id="nextBtn" class="btn-secondary">بعدی</button>
+                    <button id="submitExamBtn" class="btn-success">پایان آزمون</button>
+                </div>
+            </div>
+
+            <!-- Result Panel -->
+            <div id="resultPanel" class="panel glass-card">
+                <h2 style="margin-bottom: 20px;">📊 نتیجه آزمون</h2>
+                <div id="resultContent"></div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button id="newExamBtn" class="btn-primary">آزمون جدید</button>
+                    <button id="viewLeaderboardBtn" class="btn-secondary">مشاهده جدول رتبه‌بندی</button>
+                </div>
+            </div>
+        </main>
+    </div>
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/question-bank.js"></script>
+    <script src="js/exam-engine.js"></script>
+    <script src="js/result-manager.js"></script>
+    <script src="js/user-manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

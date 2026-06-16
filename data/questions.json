@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "category": "HSE",
+    "level": "easy",
+    "question": "هدف استفاده از کلاه ایمنی چیست؟",
+    "options": ["ایمنی", "سرعت", "زیبایی", "هیچکدام"],
+    "correct": 0
+  },
+  {
+    "id": 2,
+    "category": "HSE",
+    "level": "easy",
+    "question": "در هنگام آتش‌سوزی ابتدا چه اقدامی باید انجام داد؟",
+    "options": ["خاموش کردن آتش", "اطلاع به مسئولین", "فرار از محل", "آب پاشی"],
+    "correct": 1
+  },
+  {
+    "id": 3,
+    "category": "Technical",
+    "level": "easy",
+    "question": "سیستم عامل Windows توسط کدام شرکت تولید می‌شود؟",
+    "options": ["Apple", "Google", "Microsoft", "Linux"],
+    "correct": 2
+  },
+  {
+    "id": 4,
+    "category": "Management",
+    "level": "easy",
+    "question": "مدیریت مؤثر بر چه اساسی استوار است؟",
+    "options": ["کنترل شدید", "برنامه‌ریزی و هماهنگی", "اجبار کارکنان", "تمرکز قدرت"],
+    "correct": 1
+  },
+  {
+    "id": 5,
+    "category": "General",
+    "level": "easy",
+    "question": "پایتخت ایران کدام شهر است؟",
+    "options": ["مشهد", "اصفهان", "تبریز", "تهران"],
+    "correct": 3
+  }
+]

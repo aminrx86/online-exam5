@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت | SmartExam Enterprise</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- ADDED: استایل‌های لاگین (فقط برای همین صفحه) -->
+    <style>
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #loginOverlay.active { display: flex; }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 350px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .login-box h2 { margin-bottom: 20px; color: #333; }
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-error { color: red; font-size: 14px; margin-top: 10px; display: none; }
+        #logoutBtn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--text-primary);
+            margin-left: 10px;
+            display: none;
+        }
+        #logoutBtn:hover { background: rgba(255,0,0,0.1); }
+        .admin-nav { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <!-- ADDED: لاگین Overlay (قبل از محتوای اصلی) -->
+    <div id="loginOverlay">
+        <div class="login-box glass-card">
+            <h2>🔐 ورود به پنل مدیریت</h2>
+            <input type="password" id="loginPassword" placeholder="رمز عبور را وارد کنید">
+            <button id="loginBtn">ورود</button>
+            <div id="loginError" class="login-error">❌ رمز عبور اشتباه است</div>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی (دقیقاً به همان شکل قبلی) -->
+    <div class="app-container admin-container">
+        <header class="glass-header">
+            <div class="logo-section">
+                <h1>🔧 پنل مدیریت</h1>
+                <span class="badge">SmartExam Enterprise</span>
+            </div>
+            <div class="admin-nav">
+                <a href="index.html" style="color: var(--text-primary); text-decoration: none; margin-left: 15px;">↩ بازگشت به آزمون</a>
+                <!-- ADDED: دکمه خروج -->
+                <button id="logoutBtn">🚪 خروج</button>
+                <button id="themeToggleBtn" class="theme-btn" style="background: transparent; border: 1px solid var(--glass-border); padding: 8px 15px; border-radius: 10px; cursor: pointer;">🌙</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <!-- تمام تب‌ها و محتوا دقیقاً به همان شکل قبلی -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="questions">📚 مدیریت سوالات</button>
+                <button class="tab-btn" data-tab="results">📊 مدیریت نتایج</button>
+                <button class="tab-btn" data-tab="reports">📈 گزارشات</button>
+            </div>
+
+            <div id="questionsTab" class="tab-content active">
+                <div class="admin-actions">
+                    <button id="addQuestionBtn" class="btn-primary">➕ افزودن سوال جدید</button>
+                    <button id="importJsonBtn" class="btn-secondary">📂 Import JSON</button>
+                    <button id="exportJsonBtn" class="btn-secondary">📤 Export JSON</button>
+                    <button id="bgUploadBtn" class="btn-secondary">🎨 تغییر پس‌زمینه</button>
+                    <button id="deleteAllQuestionsBtn" class="btn-danger" style="margin-right: 10px;">🗑️ حذف همه سوالات</button>
+                    <button id="syncQuestionsBtn" class="btn-secondary" style="margin-right: 10px;">🔄 همگام‌سازی سوالات</button>
+                </div>
+                <div class="filters">
+                    <input type="text" id="searchQuestion" placeholder="🔍 جستجوی سوال..." class="search-input">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">همه دسته‌بندی‌ها</option>
+                        <option value="HSE">HSE</option>
+                        <option value="Technical">فنی</option>
+                        <option value="Management">مدیریتی</option>
+                        <option value="General">عمومی</option>
+                    </select>
+                </div>
+                <div id="questionsList" class="questions-list"></div>
+            </div>
+
+            <div id="resultsTab" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card"><h3>تعداد شرکت‌کنندگان</h3><div id="totalParticipants" class="stat-value">0</div></div>
+                    <div class="stat-card"><h3>میانگین نمرات</h3><div id="avgScore" class="stat-value">0%</div></div>
+                    <div class="stat-card"><h3>بالاترین نمره</h3><div id="highestScore" class="stat-value">0%</div></div>
+                    <div class="stat-card"><h3>پایین‌ترین نمره</h3><div id="lowestScore" class="stat-value">0%</div></div>
+                    <div class="stat-card"><h3>درصد قبولی</h3><div id="passRate" class="stat-value">0%</div></div>
+                </div>
+                 <button id="refreshResultsBtn" class="btn-secondary" style="margin: 15px 0;">🔄 به‌روزرسانی نتایج</button>
+                <div id="resultsTable" class="results-table-container"></div>
+            </div>
+
+            <div id="reportsTab" class="tab-content">
+                <div class="report-actions">
+                    <button id="exportCsvBtn" class="btn-primary">📊 خروجی CSV</button>
+                    <button id="exportExcelBtn" class="btn-secondary">📑 خروجی Excel</button>
+                    <button id="printReportBtn" class="btn-secondary">🖨 چاپ گزارش</button>
+                    <button id="generateCertificateBtn" class="btn-success">🎓 کارنامه حرفه‌ای</button>
+                </div>
+                <div id="reportContent" class="report-content"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal (دقیقاً به همان شکل قبلی) -->
+    <div id="questionModal" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">افزودن سوال جدید</h3>
+            <form id="questionForm">
+                <input type="hidden" id="questionId">
+                <div class="form-group">
+                    <label>دسته‌بندی</label>
+                    <select id="modalCategory" required>
+                        <option value="HSE">HSE</option>
+                        <option value="Technical">فنی</option>
+                        <option value="Management">مدیریتی</option>
+                        <option value="General">عمومی</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>سطح دشواری</label>
+                    <select id="modalLevel" required>
+                        <option value="easy">آسان</option>
+                        <option value="medium">متوسط</option>
+                        <option value="hard">سخت</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>متن سوال</label>
+                    <textarea id="modalQuestion" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>گزینه 1</label>
+                    <input type="text" id="option0" required>
+                </div>
+                <div class="form-group">
+                    <label>گزینه 2</label>
+                    <input type="text" id="option1" required>
+                </div>
+                <div class="form-group">
+                    <label>گزینه 3</label>
+                    <input type="text" id="option2" required>
+                </div>
+                <div class="form-group">
+                    <label>گزینه 4</label>
+                    <input type="text" id="option3" required>
+                </div>
+                <div class="form-group">
+                    <label>گزینه صحیح (شماره 0 تا 3)</label>
+                    <input type="number" id="modalCorrect" min="0" max="3" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">ذخیره</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage-manager.js"></script>
+    <script src="js/question-bank.js"></script>
+    <script src="js/result-manager.js"></script>
+    <script src="js/user-manager.js"></script>
+    <script src="js/report-manager.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>
