@@ -1,54 +1,44 @@
 class App {
   async init() {
-    try {
-      console.log("🚀 App starting...");
+    console.log("🚀 App starting...");
 
-      this.questionBank = new QuestionBank();
-      this.examEngine = new ExamEngine();
+    this.questionBank = new QuestionBank();
+    this.examEngine = new ExamEngine();
 
-      const questions = await this.questionBank.loadQuestions();
+    const questions = await this.questionBank.loadQuestions();
 
-      console.log("📚 Questions loaded:", questions);
+    console.log("📚 Questions loaded:", questions);
 
-      this.examEngine.setQuestions(questions);
+    this.examEngine.setQuestions(questions);
 
-      window.examEngine = this.examEngine;
+    window.examEngine = this.examEngine;
 
-      this.renderQuestions();
-
-    } catch (err) {
-      console.error("App init error:", err);
-    }
+    this.renderQuestions();
   }
 
   renderQuestions() {
     const container = document.getElementById("questions-container");
-    if (!container) return;
-
     container.innerHTML = "";
 
     this.examEngine.questions.forEach((q, index) => {
       const div = document.createElement("div");
-      div.className = "question";
 
       div.innerHTML = `
         <h3>${index + 1}. ${q.question}</h3>
-        <div>
-          ${q.options.map(opt => `
-            <button onclick="app.selectAnswer('${q.id}', '${opt}')">
-              ${opt}
-            </button>
-          `).join("")}
-        </div>
+        ${q.options.map(opt => `
+          <button onclick="app.select('${q.id}', '${opt}')">
+            ${opt}
+          </button>
+        `).join("")}
       `;
 
       container.appendChild(div);
     });
   }
 
-  selectAnswer(questionId, answer) {
-    this.examEngine.setAnswer(questionId, answer);
-    console.log("Answer selected:", questionId, answer);
+  select(id, answer) {
+    this.examEngine.setAnswer(id, answer);
+    console.log("Selected:", id, answer);
   }
 }
 
