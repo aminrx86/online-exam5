@@ -1,56 +1,27 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Online Exam</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-    }
-
-    .question {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-    }
-
-    button {
-      margin: 5px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 
 <body>
 
-  <h1>🧠 Online Exam System</h1>
+  <h1>Online Exam System</h1>
 
-  <!-- سوالات اینجا لود میشن -->
   <div id="questions-container"></div>
 
-  <hr />
+  <button onclick="examEngine.submit()">Submit Exam</button>
 
-  <button onclick="app.examEngine.submit()">Submit Exam</button>
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-  <!-- Supabase Config (اگر داری جدا) -->
+  <!-- Files -->
   <script src="js/supabase-client.js"></script>
-
-  <!-- Core modules (GLOBAL MODE - مهم: ترتیب خیلی مهمه) -->
   <script src="js/storage-manager.js"></script>
   <script src="js/user-manager.js"></script>
   <script src="js/question-bank.js"></script>
   <script src="js/exam-engine.js"></script>
-  <script src="js/result-manager.js"></script>
-  <script src="js/admin-dashboard.js"></script>
-
-  <!-- App LAST -->
   <script src="js/app.js"></script>
 
 </body>
