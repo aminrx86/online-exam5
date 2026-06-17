@@ -6,11 +6,11 @@ window.QuestionBank = class {
   async loadQuestions() {
     const { data, error } = await supabase
       .from("questions")
-      .select("id, question, options") // ❌ no question_id
+      .select("id, question, options, correct_answer")
       .order("id");
 
     if (error) {
-      console.error(error);
+      console.error("Question load error:", error);
       return [];
     }
 
