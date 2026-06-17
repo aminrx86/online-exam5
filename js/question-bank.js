@@ -4,7 +4,7 @@ window.QuestionBank = class {
   }
 
   async loadQuestions() {
-    const { data, error } = await supabase
+    const { data, error } = await window.supabase
       .from("questions")
       .select("id, question, options, correct_answer")
       .order("id");
