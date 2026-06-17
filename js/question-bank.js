@@ -1,6 +1,4 @@
-import { supabase } from "./supabase-client.js";
-
-export class QuestionBank {
+window.QuestionBank = class {
   constructor() {
     this.questions = [];
   }
@@ -8,8 +6,8 @@ export class QuestionBank {
   async loadQuestions() {
     const { data, error } = await supabase
       .from("questions")
-      .select("id, question, options")
-      .order("id"); // ❌ نه question_id
+      .select("id, question, options") // ❌ no question_id
+      .order("id");
 
     if (error) {
       console.error(error);
@@ -19,4 +17,4 @@ export class QuestionBank {
     this.questions = data;
     return data;
   }
-}
+};
