@@ -26,8 +26,7 @@ window.ExamEngine = class {
 
   submit() {
     const score = this.calculateScore();
-    console.log("Final Score:", score);
-    alert("Your score: " + score);
+    alert("Your Score: " + score);
     return score;
   }
 };
